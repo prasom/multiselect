@@ -1,0 +1,522 @@
+<template id="multiselectTemplate">
+    <style>
+        /* component styles */
+        /* Corner radius */
+        
+        .ui-corner-all,
+        .ui-corner-top,
+        .ui-corner-left,
+        .ui-corner-tl {
+            border-top-left-radius: 3px;
+        }
+        
+        .ui-corner-all,
+        .ui-corner-top,
+        .ui-corner-right,
+        .ui-corner-tr {
+            border-top-right-radius: 3px;
+        }
+        
+        .ui-corner-all,
+        .ui-corner-bottom,
+        .ui-corner-left,
+        .ui-corner-bl {
+            border-bottom-left-radius: 3px;
+        }
+        
+        .ui-corner-all,
+        .ui-corner-bottom,
+        .ui-corner-right,
+        .ui-corner-br {
+            border-bottom-right-radius: 3px;
+        }
+        /* Overlays */
+        
+        .ui-widget-overlay {
+            background: #5c5c5c url(images/ui-bg_flat_50_5c5c5c_40x100.png) 50% 50% repeat-x;
+            opacity: .8;
+            filter: Alpha(Opacity=80);
+        }
+        
+        .ui-widget-shadow {
+            margin: -7px 0 0 -7px;
+            padding: 7px;
+            background: #cccccc url(images/ui-bg_flat_30_cccccc_40x100.png) 50% 50% repeat-x;
+            opacity: .6;
+            filter: Alpha(Opacity=60);
+            border-radius: 8px;
+        }
+        /* Component containers
+----------------------------------*/
+        
+        .ui-widget {
+            font-family: HelveticaWorld, Arial, Cabin, sans-serif;
+            font-size: 1.1em;
+        }
+        
+        .ui-widget .ui-widget {
+            font-size: 1em;
+        }
+        
+        .ui-widget input,
+        .ui-widget select,
+        .ui-widget textarea,
+        .ui-widget button {
+            font-family: HelveticaWorld, Arial, Cabin, sans-serif;
+            font-size: 1em;
+        }
+        
+        .ui-widget-content {
+            border: 1px solid #000000;
+            /*background: #000000 url(images/ui-bg_inset-soft_25_000000_1x100.png) 50% bottom repeat-x;*/
+            background-color: #333333;
+            color: #ffffff;
+        }
+        
+        .ui-widget-content a {
+            color: #ffffff;
+        }
+        
+        .ui-widget-header {
+            border: 1px solid #000;
+            background: #4c4c4c;
+            color: #fff;
+        }
+        
+        .ui-widget-header a {
+            color: #ffffff;
+        }
+        /* Interaction states
+----------------------------------*/
+        
+        .ui-state-default,
+        .ui-widget-content .ui-state-default,
+        .ui-widget-header .ui-state-default {
+            border: 1px solid #000;
+            border-radius: 2px;
+            background: #000;
+            background: -webkit-linear-gradient(top, #3e3e3e 0%, #202020 30%, #000000 100%);
+            background: -ms-linear-gradient(top, #3e3e3e 0%, #202020 30%, #000000 100%);
+            background: -moz-linear-gradient(top, #3e3e3e 0%, #202020 30%, #000000 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#3e3e3e', endColorstr='#000000', GradientType=0);
+            color: #bfbfbf;
+            font: 12px Helvetica;
+        }
+        
+        .ui-state-default a,
+        .ui-state-default a:link,
+        .ui-state-default a:visited {
+            color: #eeeeee;
+            text-decoration: none;
+        }
+        
+        .ui-state-hover,
+        .ui-widget-content .ui-state-hover,
+        .ui-widget-header .ui-state-hover,
+        .ui-state-focus,
+        .ui-widget-content .ui-state-focus,
+        .ui-widget-header .ui-state-focus {
+            color: #fff;
+            background: #402903;
+        }
+        
+        .ui-state-hover a,
+        .ui-state-hover a:hover,
+        .ui-state-hover a:link,
+        .ui-state-hover a:visited {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        
+        .ui-state-active,
+        .ui-widget-content .ui-state-active,
+        .ui-widget-header .ui-state-active {
+            background: #402903;
+            border: 1px solid orange;
+            color: #ff8000;
+            font-weight: bold;
+        }
+        
+        .ui-state-active a,
+        .ui-state-active a:link,
+        .ui-state-active a:visited {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        /* Interaction Cues
+----------------------------------*/
+        
+        .ui-state-highlight,
+        .ui-widget-content .ui-state-highlight,
+        .ui-widget-header .ui-state-highlight {
+            border: 1px solid #cccccc;
+            background: #eeeeee url(images/ui-bg_highlight-soft_80_eeeeee_1x100.png) 50% top repeat-x;
+            color: #2e7db2;
+        }
+        
+        .ui-state-highlight a,
+        .ui-widget-content .ui-state-highlight a,
+        .ui-widget-header .ui-state-highlight a {
+            color: #2e7db2;
+        }
+        
+        .ui-state-error,
+        .ui-widget-content .ui-state-error,
+        .ui-widget-header .ui-state-error {
+            border: 1px solid #ffb73d;
+            background: #ffc73d url(images/ui-bg_glass_40_ffc73d_1x400.png) 50% 50% repeat-x;
+            color: #111111;
+        }
+        
+        .ui-state-error a,
+        .ui-widget-content .ui-state-error a,
+        .ui-widget-header .ui-state-error a {
+            color: #111111;
+        }
+        
+        .ui-state-error-text,
+        .ui-widget-content .ui-state-error-text,
+        .ui-widget-header .ui-state-error-text {
+            color: #111111;
+        }
+        
+        .ui-priority-primary,
+        .ui-widget-content .ui-priority-primary,
+        .ui-widget-header .ui-priority-primary {
+            font-weight: bold;
+        }
+        
+        .ui-priority-secondary,
+        .ui-widget-content .ui-priority-secondary,
+        .ui-widget-header .ui-priority-secondary {
+            opacity: .7;
+            filter: Alpha(Opacity=70);
+            font-weight: normal;
+        }
+        
+        .ui-state-disabled,
+        .ui-widget-content .ui-state-disabled,
+        .ui-widget-header .ui-state-disabled {
+            opacity: .35;
+            filter: Alpha(Opacity=35);
+            background-image: none;
+        }
+        
+        .ui-state-disabled .ui-icon {
+            filter: Alpha(Opacity=35);
+            /* For IE8 - See #6059 */
+        }
+        
+        .ui-multiselect {
+            padding: 2px 0 2px 4px;
+            text-align: left
+        }
+        
+        .ui-multiselect span.ui-icon {
+            float: right
+        }
+        
+        .ui-multiselect-single .ui-multiselect-checkboxes input {
+            position: absolute !important;
+            top: auto !important;
+            left: -9999px;
+        }
+        
+        .ui-multiselect-single .ui-multiselect-checkboxes label {
+            padding: 5px !important
+        }
+        
+        .ui-multiselect-header {
+            margin-bottom: 3px;
+            padding: 3px 0 3px 4px
+        }
+        
+        .ui-multiselect-header ul {
+            font-size: 0.9em
+        }
+        
+        .ui-multiselect-header ul li {
+            float: left;
+            padding: 0 10px 0 0
+        }
+        
+        .ui-multiselect-header a {
+            text-decoration: none
+        }
+        
+        .ui-multiselect-header a:hover {
+            text-decoration: underline
+        }
+        
+        .ui-multiselect-header span.ui-icon {
+            float: left
+        }
+        
+        .ui-multiselect-header li.ui-multiselect-close {
+            float: right;
+            text-align: right;
+            padding-right: 0
+        }
+        
+        .ui-multiselect-menu {
+            display: none;
+            padding: 3px;
+            position: absolute;
+            z-index: 10000;
+            text-align: left
+        }
+        
+        .ui-multiselect-checkboxes {
+            position: relative/* fixes bug in IE6/7 */
+            ;
+            overflow-y: auto
+        }
+        
+        .ui-multiselect-checkboxes label {
+            cursor: pointer;
+            display: block;
+            border: 1px solid transparent;
+            padding: 3px 1px
+        }
+        
+        .ui-multiselect-checkboxes label input {
+            position: relative;
+            top: -4px;
+            margin-right: 5px;
+        }
+        
+        .ui-multiselect-checkboxes li {
+            clear: both;
+            font-size: 1em;
+            padding-right: 3px;
+            margin-left: 1px;
+        }
+        
+        .ui-multiselect-checkboxes li.ui-multiselect-optgroup-label {
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 1px solid
+        }
+        
+        .ui-multiselect-checkboxes li.ui-multiselect-optgroup-label a {
+            display: block;
+            padding: 3px;
+            margin: 1px 0;
+            text-decoration: none
+        }
+        /* remove label borders in IE6 because IE6 does not support transparency */
+        
+        * html .ui-multiselect-checkboxes label {
+            border: none
+        }
+        /* Component containers
+----------------------------------*/
+        
+        .ui-widget {
+            font-family: HelveticaWorld, Arial, Cabin, sans-serif;
+            font-size: 1.1em;
+        }
+        
+        .ui-widget .ui-widget {
+            font-size: 1em;
+        }
+        
+        .ui-widget input,
+        .ui-widget select,
+        .ui-widget textarea,
+        .ui-widget button {
+            font-family: HelveticaWorld, Arial, Cabin, sans-serif;
+            font-size: 1em;
+        }
+        
+        .ui-widget-content {
+            border: 1px solid #000000;
+            /*background: #000000 url(images/ui-bg_inset-soft_25_000000_1x100.png) 50% bottom repeat-x;*/
+            background-color: #333333;
+            color: #ffffff;
+        }
+        
+        .ui-widget-content a {
+            color: #ffffff;
+        }
+        
+        .ui-widget-header {
+            border: 1px solid #000;
+            background: #4c4c4c;
+            color: #fff;
+        }
+        
+        .ui-widget-header a {
+            color: #ffffff;
+        }
+        /* Layout helpers
+----------------------------------*/
+        
+        .ui-helper-hidden {
+            display: none;
+        }
+        
+        .ui-helper-hidden-accessible {
+            border: 0;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+        
+        .ui-helper-reset {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: 0;
+            line-height: 1.3;
+            text-decoration: none;
+            font-size: 100%;
+            list-style: none;
+        }
+        
+        .ui-helper-clearfix:before,
+        .ui-helper-clearfix:after {
+            content: "";
+            display: table;
+            border-collapse: collapse;
+        }
+        
+        .ui-helper-clearfix:after {
+            clear: both;
+        }
+        
+        .ui-helper-clearfix {
+            min-height: 0;
+            /* support: IE7 */
+        }
+        
+        .ui-helper-zfix {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: absolute;
+            opacity: 0;
+            filter: Alpha(Opacity=0);
+        }
+        
+        .ui-front {
+            z-index: 100;
+        }
+    </style>
+
+    <!-- component markup -->
+    <button type="button" class="ui-multiselect ui-widget ui-state-default ui-corner-all gridMultiSelector mCS_70362 truncate ui-state-active"
+    aria-haspopup="true" aria-disabled="false" style="width: 400px;" title="UITEST LE 01 (UITEST-LE-01), 123 Genesis Building Vendor, New york, United States"><span class="ui-icon ui-icon-triangle-1-s"></span><span>Please select</span></button>
+    <div class="ui-multiselect-menu ui-widget ui-widget-content ui-corner-all mCS_70362" style="width: 182px; top: 124px; left: 645.906px; display: block;">
+        <div class="ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix ui-multiselect-hasfilter">
+            <div class="ui-multiselect-filter">Search
+                <input id="dropdownFilter" placeholder="Keywords" type="search" arial-disabled="false" style="width:170px;">
+            </div>
+            <ul class="ui-helper-reset mCustomScrollbar _mCS_1 mCS_no_scrollbar">
+                <div id="mCSB_1" class="mCustomScrollBox mCS-dark-thick mCSB_vertical mCSB_inside" tabindex="0">
+                    <div id="mCSB_1_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;"
+                    dir="ltr">
+                        <li><a class="ui-multiselect-all" href="#"><span class="ui-icon ui-icon-check"></span><span>Select All</span></a></li>
+                        <li><a class="ui-multiselect-none" href="#"><span class="ui-icon ui-icon-closethick"></span><span>Clear All</span></a></li>
+                        <li class="ui-multiselect-close"><a href="#" class="ui-multiselect-close"><span class="ui-icon ui-icon-circle-close"></span></a></li>
+                    </div>
+                    <div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-dark-thick mCSB_scrollTools_vertical" style="display: none;">
+                        <a href="#" class="mCSB_buttonUp" oncontextmenu="return false;"></a>
+                        <div class="mCSB_draggerContainer">
+                            <div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; height: 0px;"
+                            oncontextmenu="return false;">
+                                <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
+                            </div>
+                            <div class="mCSB_draggerRail"></div>
+                        </div>
+                        <a href="#" class="mCSB_buttonDown" oncontextmenu="return false;"></a>
+                    </div>
+                </div>
+            </ul>
+        </div>
+        <ul class="ui-multiselect-checkboxes ui-helper-reset mCustomScrollbar _mCS_2 aaa-multiselect-list" style="height: 175px;">
+            <div id="mCSB_2" class="mCustomScrollBox mCS-dark-thick mCSB_vertical mCSB_inside" tabindex="0">
+                <div id="mCSB_2_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+                    <li class=" ">
+                        <label for="ui-multiselect-locationFilter-option-0" title="" class="ui-corner-all ui-state-hover">
+                            <input id="ui-multiselect-locationFilter-option-0" name="multiselect_locationFilter" type="checkbox" value="0" title="" checked="checked"
+                            aria-selected="false" arial-disabled="false"><span>UITEST LE 01 (UITEST-LE-01), 123 Genesis Building Vendor, New york, United States</span></label>
+                    </li>
+                    <li class=" ">
+                        <label for="ui-multiselect-locationFilter-option-1" title="" class="ui-corner-all">
+                            <input id="ui-multiselect-locationFilter-option-1" name="multiselect_locationFilter" type="checkbox" value="1" title="" arial-disabled="false"><span>UITEST LE 02 (UITEST-LE-02), 123 Genesis Building Vendor, New york, United States</span></label>
+                    </li>
+                    <li class=" ">
+                        <label for="ui-multiselect-locationFilter-option-2" title="" class="ui-corner-all">
+                            <input id="ui-multiselect-locationFilter-option-2" name="multiselect_locationFilter" type="checkbox" value="2" title="" arial-disabled="false"><span>UITEST LE 03 (UITEST-LE-03), 123 Genesis Building Vendor, New york, United States</span></label>
+                    </li>
+                </div>
+                <div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-dark-thick mCSB_scrollTools_vertical" style="display: block;">
+                    <a href="#" class="mCSB_buttonUp" oncontextmenu="return false;" style="display: block;"></a>
+                    <div class="mCSB_draggerContainer">
+                        <div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px; display: block; height: 108px; max-height: 125px;"
+                        oncontextmenu="return false;">
+                            <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
+                        </div>
+                        <div class="mCSB_draggerRail"></div>
+                    </div>
+                    <a href="#" class="mCSB_buttonDown" oncontextmenu="return false;" style="display: block;"></a>
+                </div>
+            </div>
+        </ul>
+    </div>
+</template>
+
+<script>
+    // 1. find template
+    var ownerDocument = document.currentScript.ownerDocument;
+    var template = ownerDocument.querySelector('#multiselectTemplate');
+
+    // 2. create component object with the specified prototype 
+    var multiselectPrototype = Object.create(HTMLElement.prototype);
+
+    // 3. define createdCallback
+    multiselectPrototype.createdCallback = function() {
+      this.init();
+            this.render();
+    };
+    
+    multiselectPrototype.createRootElement = function() {
+             var root = this.createShadowRoot();
+        var content = document.importNode(template.content, true);
+        root.appendChild(content);
+            return root;
+        };
+    
+    multiselectPrototype.init = function() {
+            this._root = this.createRootElement();
+            this._list = this._root.querySelector('.aaa-multiselect-list');
+    };
+     multiselectPrototype.render = function(){
+         this.attachHandlers();
+    }
+    
+    multiselectPrototype.attachHandlers = function(){
+         this._list.addEventListener('click', this.listClickHandler.bind(this));
+    }
+    
+     multiselectPrototype.listClickHandler = function(event) {
+            var item = event.target;
+            while(item && item.tagName !== 'LI') {
+                item = item.parentNode;
+            }
+            console.log("you are select >>",item);
+            //this.selectItem(item);
+        };
+    
+    // 4. register custom element
+    document.registerElement('aaa-multiselect', {
+        prototype: multiselectPrototype
+    });
+
+</script>
